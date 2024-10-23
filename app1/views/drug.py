@@ -13,12 +13,12 @@ def home(request):
 # 药品库存---------------------------------------------------------------------
 def drug_list(request):
     # queryset = models.Drug.objects.all()
-    url1 = "https://api.shserve.cn/api/yiyan"
-    response = requests.get(url1)
-    if response.status_code == 200:
-        data = response.text
-    else:
-        print("请求失败，状态码：", response.status_code)
+    # url1 = "https://api.shserve.cn/api/yiyan"测试代码没用
+    # response = requests.get(url1)
+    # if response.status_code == 200:
+    #    data = response.text
+    # else:
+    #    print("请求失败，状态码：", response.status_code)
 
     data_dict = {}
     search_value = request.GET.get('q', '')  # 得到搜索值
@@ -32,7 +32,7 @@ def drug_list(request):
         'page_string': page_object.html(),
         'active': 'drug_list',  # 侧边栏状态
         'title': "出库记录",
-        'data': data
+        #    'data': data
     }
     return render(request, 'drug_list.html', context)
 
