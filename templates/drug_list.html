@@ -1,0 +1,75 @@
+{% extends 'main_sidebar.html' %}
+{% block content1 %}
+    <h1 class="page-header">药品库存</h1>
+    <h4>{{ data}}</h4>
+    <div class="table-responsive">
+        {#    搜索系统#}
+        <form method="get" class="navbar-form" style="float: right;margin-top: 0 !important;padding: 0 !important;">
+            <label>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="q" placeholder="搜索药品..." value="{{ search_value }}">
+                </div>
+                <button type="submit" class="btn btn-default">搜索
+                </button>
+            </label>
+        </form>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>种类</th>
+                <th>进货价</th>
+                <th>售价</th>
+                <th>库存量</th>
+                <th>保质期(月)</th>
+                <th>是否纳入医保</th>
+                <th>供货商</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in queryset %}
+                <tr>
+                    <td>{{ obj.id }}</td>
+                    <td>{{ obj.name }}</td>
+                    <td>{{ obj.get_drug_type_display }}</td>
+                    <td>{{ obj.price }}</td>
+                    <td>{{ obj.price2 }}</td>
+                    <td>{{ obj.storage }}</td>
+                    <td>{{ obj.quality_time }}</td>
+                    <td>{{ obj.get_insurance_display }}</td>
+                    <td>{{ obj.supplier }}</td>
+                    <td>
+                        <a class="btn btn-primary btn-xs" href="/drug_edit/{{ obj.id }}/">编辑</a>
+                        <a class="btn btn-danger btn-xs" href="/drug_delete/{{ obj.id }}/">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1156723346&bvid=BV1YZ421L7Y7&cid=25647646307&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width: 100%; height: 480px; padding: 0px; margin: 0px;"></iframe>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}><div class="alert alert-danger" role="alert">{{ message }}</div></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {{ page_string }}
+            <li>
+                <form style="float: left;margin-left: 0px" method="get">
+                    {#                    不用ajax也能传参了哈哈#}
+                    <input name="q" value="{{ search_value }}" type="hidden">
+                    <input name="page"
+                           style="position: relative;float:left;display: inline-block;width: 80px;border-radius: 0;"
+                           type="text" class="form-control" placeholder="页码">
+                    <button style="border-radius: 0" class="btn btn-default" type="submit">跳转</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}

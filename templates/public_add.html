@@ -1,0 +1,24 @@
+{% extends 'main_sidebar.html' %}
+{% block content1 %}
+    <h1 class="page-header">{{ title }}</h1>
+    <p class="bg-danger">{{ title3 }}</p>
+    <div class="table-responsive">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="clearfix">
+                {% for field in form %}
+                    <div style="padding:0 30px">
+                        <div class="form-group" style="position: relative">
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                            <span style="color: red">{{ field.errors.0 }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div style="padding:0 30px">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'main_sidebar.html' %}
+{% block content1 %}
+    <h1 class="page-header">{{ title }}</h1>
+    <div class="table-responsive">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="clearfix">
+                <div style="padding:0 30px">{# 栅格 #}
+                    <div class="form-group" style="position: relative">
+                        <label>{{ form.name.label }}</label>
+                        {{ form.name }}
+                        <span style="color: red">{{form.name.errors.0 }}</span>
+                    </div>
+                </div>
+                <div style="padding:0 30px">{# 栅格 #}
+                    <div class="form-group" style="position: relative">
+                        <label>{{ form.quantity.label }}</label>
+                        {{ form.quantity }}
+                        <span style="color: red">{{ form.quantity.errors.0 }}</span>
+                    </div>
+                </div>
+                <div style="padding:0 30px">{# 栅格 #}
+                    <div class="form-group" style="position: relative">
+                        <label>{{ form.insurance.label }}</label>
+                        {{ form.insurance }}
+                        <span style="color: red">{{ form.insurance.errors.0 }}</span>
+                    </div>
+                </div>
+                <div style="padding:0 30px">{# 栅格 #}
+                    <div class="form-group" style="position: relative">
+                        <label>{{ form.out_type.label }}</label>
+                        {{ form.out_type }}
+                        <span style="color: red">{{ form.out_type.errors.0 }}</span>
+                    </div>
+                </div>
+                <div style="padding:0 30px">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

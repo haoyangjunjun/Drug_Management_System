@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>药品管理系统</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}">
+    <link rel="shortcut icon" href="{% static "logo/bitbug_favicon.ico" %}"/>
+    {% block css %}{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            {#            logo#}
+            <a class="navbar-brand" href="#"><img src="{% static 'logo/logo.png' %}" alt="logo"
+                                                  style="float: left;padding: 1px; height: 20px;width: 20px;margin-right: 3px">金苑校医院药品管理系统</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/admin_list/">用户：{{ request.session.info.name }}</a></li>
+                {#显示用户名#}
+                <li><a href="/logout/">登出</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div>{% block content %}{% endblock %}</div>
+<script src="{% static 'js/jquery3.7.js' %}"></script>
+{#注意加载顺序#}
+<script src="{% static 'plugins/bootstrap-3.4.1-dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+{% block js %}{% endblock %}
+</body>
+</html>

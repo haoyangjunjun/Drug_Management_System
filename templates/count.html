@@ -1,0 +1,281 @@
+{% extends 'main_sidebar.html' %}
+{% load static %}
+{% block content1 %}
+    <h1 class="page-header">{{ title }}</h1>
+    <form method="get" class="navbar-form" style="float: right;margin-top: 0 !important;padding: 0 !important;">
+        <label>
+            <div class="form-group">
+                <input type="text" class="form-control" name="year" placeholder="搜索年份:如 2024"
+                       value="{{ search_value }}">
+                <input name="month" value="{{ search_value2 }}" type="hidden">
+            </div>
+            <button type="submit" class="btn btn-default">搜索
+            </button>
+        </label>
+    </form>
+    <h2>{{ title2 }}年：</h2>
+    <div class="row" style="clear: both">
+        <div class="col-xs-6" style="height: 30%;width: 50%">
+            <canvas id="myChart2" width="400" height="400"></canvas>
+        </div>
+        <div class="col-xs-6" style="height: 30%;width: 50%">
+            <canvas id="myChart3" width="400" height="400"></canvas>
+        </div>
+        <h2 style="line-height: 2">按月份收支对比折线图&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ title3 }}
+            月医保支付占比饼图（单位：元）：</h2>
+        <div class="col-xs-6">
+            <canvas id="myChart4" width="400" height="400"></canvas>
+        </div>
+        <div>
+            <form method="get" class="navbar-form" style="float: right;margin-top: 0 !important;padding: 0 !important;">
+                <label>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="month" placeholder="搜索月份:如 6"
+                               value="{{ search_value2 }}">
+                        <input name="year" value="{{ search_value }}" type="hidden">
+                    </div>
+                    <button type="submit" class="btn btn-default">搜索
+                    </button>
+                </label>
+            </form>
+            <div class="col-xs-6">
+                <canvas id="myChart5" width="400" height="400"></canvas>
+            </div>
+        </div>
+        <div  class="col-xs-6" style="clear: both;float: left">
+            <h2>分类库存环形图</h2>
+            <div>
+                <canvas id="myChart6" width="400" height="400"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
+{% block js2 %}
+    <script src="{% static 'js/chart.umd.js' %}"></script>
+    <script type="module">
+        const ctx = document.getElementById('myChart2');
+        const labels = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];  // 设置 X 轴上对应的标签
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: '按月份统计收入柱形图',
+                data:{{ monthly_sums_list }},
+                backgroundColor: [      // 设置每个柱形图的背景颜色
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [     //设置每个柱形图边框线条颜色
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1     // 设置线条宽度
+            }]
+        };
+        const config = {
+            type: 'bar', // 设置图表类型
+            data: data,  // 设置数据集
+            options: {
+                title: {
+                    display: true,
+                    text: "123",
+                    fontSize: 20,
+                },
+                legend: {
+                    position: 'top',
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true // 设置 y 轴从 0 开始
+                    }
+                }
+            },
+        };
+        const myChart = new Chart(ctx, config);
+
+    </script>
+    <script type="module">
+        const ctx = document.getElementById('myChart3');
+        const labels = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];  // 设置 X 轴上对应的标签
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: '按月份统计支出柱形图',
+                data:{{ monthly_sums_list2 }},
+                backgroundColor: [      // 设置每个柱形图的背景颜色
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [     //设置每个柱形图边框线条颜色
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1     // 设置线条宽度
+            }]
+        };
+        const config = {
+            type: 'bar', // 设置图表类型
+            data: data,  // 设置数据集
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true // 设置 y 轴从 0 开始
+                    }
+                }
+            },
+        };
+        const myChart = new Chart(ctx, config);
+    </script>
+    <script type="module">
+        const ctx = document.getElementById('myChart4');
+        const labels = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];  // 设置 X 轴上对应的标签
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: '收入',
+                data: {{ monthly_sums_list }},
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)', // 设置线的颜色
+                backgroundColor: ['rgba(95,232,255,0.5)'],// 设置点的填充色
+                pointStyle: 'circle',     //设置点类型为圆点
+                pointRadius: 3,    //设置圆点半径
+                pointHoverRadius: 10, //设置鼠标移动上去后圆点半径
+                tension: 0.1
+            },
+                {
+                    type: 'line',
+                    label: '支出',
+                    data: {{ monthly_sums_list2 }},
+                    fill: false,
+                    borderColor: 'rgb(255,106,0)', // 设置线的颜色
+                    backgroundColor: ['rgba(255,204,0,0.54)'],// 设置点的填充色
+                    pointStyle: 'circle',     //设置点类型为圆点
+                    pointRadius: 3,    //设置圆点半径
+                    pointHoverRadius: 10, //设置鼠标移动上去后圆点半径
+                    tension: 0.1
+                }
+            ]
+        };
+        const config = {
+            type: 'line', // 设置图表类型
+            data: data,
+            options: {
+                responsive: true,  // 设置图表为响应式
+                interaction: {  // 设置每个点的交互
+                    intersect: false,
+                },
+                scales: {  // 设置 X 轴与 Y 轴
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: '月份'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: '金额'
+                        }
+                    }
+                }
+            }
+        };
+        const myChart = new Chart(ctx, config);
+    </script>
+    <script type="module">
+        const ctx = document.getElementById('myChart5');
+        const data = {
+            labels: [
+                '现金',
+                '医保卡'
+            ],
+            datasets: [{
+                label: '医保支付占比饼图（单位：元）',
+                data:{{ monthly_sums_list3 }},
+                backgroundColor: [
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4
+            }]
+        };
+        const config = {
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: true, // 设置图表为响应式，根据屏幕窗口变化而变化
+                maintainAspectRatio: false,// 保持图表原有比例
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+            }
+        };
+        const myChart = new Chart(ctx, config);
+    </script>
+    <script type="module">
+        const ctx = document.getElementById('myChart6');
+        const data = {
+            labels: [
+                '处方药',
+                '非处方药',
+                '中药',
+                '保健品',
+                '其他'
+            ],
+            datasets: [{
+                label: '分类库存环形图',
+                data: {{ datalist2 }},
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4
+            }]
+        };
+        const config = {
+            type: 'doughnut',
+            data: data,
+            options: {
+                responsive: true, // 设置图表为响应式，根据屏幕窗口变化而变化
+                maintainAspectRatio: false,// 保持图表原有比例
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        };
+        const myChart = new Chart(ctx, config);
+    </script>
+{% endblock %}
